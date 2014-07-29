@@ -1,0 +1,85 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ * Karina Veliz Moreira
+ */
+ require 'rb.php' ;
+ class Cliente
+{
+     private $id;
+     private $Nombre;
+     private $Apellido;
+     private $Telefono;
+     private $Direccion;
+
+
+     public function __construct($id,$nombre, $apellido, $telefono, $direccion) {
+         $this->id=$id;
+         $this->Nombre=$nombre;
+         $this->Apellido=$apellido;
+         $this->Telefono=$telefono;
+         $this->Direccion=$direccion;
+         R::setup('mysql:host=localhost; dbname=pinturas', 'root','');
+    }
+     
+     
+     public function getNombre()
+     {
+         return $this->Nombre;
+     }
+     public function setNombre($valor)
+     {
+         $this->Nombre=$valor;
+     }
+      public function getApellido()
+     {
+         return $this->Apellido;
+     }
+     public function setApellido($valor)
+     {
+         $this->Apellido=$valor;
+     }
+      public function getTelefono()
+     {
+         return $this->Telefono;
+     }
+     public function setTelefono($valor)
+     {
+         $this->Telefono=$valor;
+     }
+     
+     public function crear(){
+        $clientes= R::dispense('c');
+                //$alumnos->Id=$_POST["id"]; 
+                $clientes->Nombre=  $this->getNombre(); 
+                $clientes->Apellido=$this->getApellido();
+                $clientes->Telefono=$this->getTelefono(); 
+                $clientes->Direccion=  $this->getDireccion();
+                $insertado=R::store($clientes); 
+     }
+     
+     public function eliminar(){
+        $clientes = R::load('cliente', $this->id);
+                R::trash( $clientes ); 
+     }
+     
+     public function actualizar(){
+          $clientes = R::load('cliente', $id);
+                //$alumnos->Id= $_POST["id"];
+                $clientes->Nombre= $this->getNombre();
+                $clientes->Apellido=$this->getApellido();
+                $clientes->Telefono=$this->getTelefono();
+                $clientes->Direccion=  $this->Direccion();
+                R::store($clientes);
+     }
+     
+     public function buscar(){
+          $clientes = R::load('cliente', $id);
+     }
+}
+
+
+?>
