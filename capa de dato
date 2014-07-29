@@ -1,0 +1,83 @@
+ <?php
+        require 'rb.php' ;
+        R::setup('mysql:host=localhost; dbname=pinturas', 'root',''); 
+         
+        if (isset($_POST['boton']))    // isset permite ver si la variable existe
+        {
+            $boton=$_POST["boton"];    //recuperamos el boton 
+            $busca=$_POST["busca"]; 
+            if($boton=="Buscar")
+            {
+                ;
+                $clientes = R::load('cliente', $busca);
+            }
+            if($boton=="Actualizar")
+            {
+                
+                $alumnos = R::load('cliente', $busca);
+                //$alumnos->Id= $_POST["id"];
+                $alumnos->Nombre= $_POST["nombre"];
+                $alumnos->Apellido=$_POST["apellido"]; 
+                $alumnos->Telefono=$_POST["telefono"]; 
+                $alumnos->Direccion=$_POST["Direccion"];
+                R::store($clientes);
+            }
+            if($boton=="Eliminar")
+            {
+                $clientes = R::load('cliente', $busca);
+                R::trash( $clientes );
+                
+            }
+               if($boton=="Agregar")
+            {
+                $alumnos= R::dispense('cliente');
+                //$alumnos->Id=$_POST["id"]; 
+                $alumnos->Nombre=$_POST["nombre"]; 
+                $alumnos->Apellido=$_POST["apellido"]; 
+                $alumnos->Telefono=$_POST["telefono"]; 
+                $alumnos->Direccion=$_POST["Direccion"];
+                $insertado=R::store($clientes);
+               
+
+            }
+        }
+?>
+
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+            <form action="capadat.php" method="post" name="form">
+             <input type="submit" value="Buscar" id="buscar" name="boton">
+             <input type="text"   id="txtbusca" name="busca" value= "<?php if (isset($clientes->Id))  echo $clientes->Id;   ?>" >
+             <input type="submit" value="Buscar" id="buscar" name="boton"> </br>
+           <input type="button" value="Id" id="Nombre" name="id"> 
+             <input type="text"  id="txtid" name="id" value= "<?php if (isset($clientes->Id))  echo $clientes->Id;   ?>"> </br>
+             <input type="button" value="Nombre" id="Nombre" name="nombre"> 
+              <input type="text"   id="txtnombre" name="nombre" value= "<?php if (isset($clientes->Nombre))  echo $clientes->Nombre;   ?>" > </br>
+             <input type="button" value="Apellido" id="Apellido" name="apellido"> 
+              <input type="text"   id="txtapellido" name="apellido" value="<?php if (isset($clientes->Apellido))  echo $clientes->Apellido;?>"> </br>
+             <input type="button" value="Telefono" id="Telefono" name="telefono"> 
+              <input type="text"   id="txttelefono" name="telefono" value="<?php if (isset($clientes->Telefono))  echo $clientes->Telefono;?>">  </br>
+              
+              <input type="button" value="Direccion" id="Direccion" name="direccion"> 
+              <input type="text"   id="txtdireccion" name="direccion" value="<?php if (isset($clientes->Direccion))  echo $clientes->Direccion;?>">  </br>
+             
+            </select></br>
+             <input type="submit" value="Actualizar" id="Actualizar" name="boton">
+             <input type="submit" value="Eliminar" id="Eliminar" name="boton">
+             <input type="submit" value="Agregar" id="Agregar" name="boton">
+         </form>
+    </head>
+    <body>
+        
+
+    </body>
+</html>
